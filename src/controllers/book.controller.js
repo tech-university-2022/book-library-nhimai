@@ -1,22 +1,29 @@
-const { callExternalAPI, groupByAuthor } = require('../helpers/book.helper')
-const { ALL_BOOKS, FIND_BOOK_BY_ID } = require('../constants/endpoint.constant')
+const { combineBookInfo, groupByAuthor } = require('../helpers/book.helper')
+const { BookService } = require('../services/book.service')
 
 const getExternalAPI = async (req, res, next) => {
 	try {
-		const books = await callExternalAPI(ALL_BOOKS).then(res => res.books)
-		const ratings = books.map(async(book) => {
-			const rating = await callExternalAPI(`${FIND_BOOK_BY_ID}/${book.id}`)
-			return {
-				...book,
-				rating: rating.rating
-			}
-		})
-		const ratedBooks = await Promise.all(ratings)
-		const result = groupByAuthor(ratedBooks)
+		const books = await combineBookInfo()
+		const result = groupByAuthor(books)
 		res.json(result)
 	} catch (err) {
 		next(err)
 	}
 }
 
-module.exports = { getExternalAPI }
+const saveBooks = async (req, res, next) => {
+	try {
+		const books = await combineBookInfo()
+		await BookService.insertMany(books)
+		res.send(true)
+	} catch (err) {
+		next(err)
+	}
+}
+
+module.exports = {
+	BookController: {
+		getExternalAPI,
+		saveBooks
+	}
+}

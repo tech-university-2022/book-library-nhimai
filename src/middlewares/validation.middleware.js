@@ -1,5 +1,5 @@
-function generateValidationMiddleware(joiSchema, validateProperty = 'body') {
-	return async function validationMiddleware(req, res, next) {
+function generateValidationMiddleware (joiSchema, validateProperty = 'body') {
+	return async function validationMiddleware (req, res, next) {
 		try {
 			const value = await joiSchema.validateAsync(req[validateProperty])
 			req[validateProperty] = value
@@ -9,7 +9,7 @@ function generateValidationMiddleware(joiSchema, validateProperty = 'body') {
 		}
 	}
 }
-  
+
 module.exports = {
-	generateValidationMiddleware,
+	generateValidationMiddleware
 }
