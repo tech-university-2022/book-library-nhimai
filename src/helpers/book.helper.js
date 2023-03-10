@@ -9,6 +9,7 @@ const callExternalAPI = async (endpoint) => {
 
 const combineBookInfo = async () => {
 	const books = await callExternalAPI(ALL_BOOKS).then(res => res.books)
+	console.log(books)
 	const ratings = books.map(async (book) => {
 		const rating = await callExternalAPI(`${FIND_BOOK_BY_ID}/${book.id}`)
 		return {
@@ -24,8 +25,24 @@ const groupByAuthor = (ratedBooks) => ratedBooks.reduce((accumulator, currentVal
 	const obj = { ...accumulator }
 	const author = currentValue.Author
 	obj[author] = [...obj[author] || [], currentValue]
-	console.log(obj[author])
 	return obj
 }, {})
 
-module.exports = { callExternalAPI, combineBookInfo, groupByAuthor }
+const getNewBooks = (books, existedIds) => {
+	const newBooks = books.filter(book => !existedIds.includes(book.id))
+	return newBooks
+}
+
+const sortByRating = (books) => {
+	return books.sort((a, b) => a.Rating - b.Rating)
+}
+
+module.exports = {
+	BookHelper: {
+		callExternalAPI,
+		combineBookInfo,
+		groupByAuthor,
+		getNewBooks,
+		sortByRating
+	}
+}
