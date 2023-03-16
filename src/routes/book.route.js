@@ -6,6 +6,7 @@ const { generateValidationMiddleware } = require('../middlewares/validation.midd
 
 const router = Router()
 router.get('/', BookController.getExternalAPI)
+router.get('/all', BookController.getAll)
 router.post('/', BookController.saveBooks)
 router.patch('/:id', generateValidationMiddleware(BookSchemas.Vote), BookController.vote)
 router.get('/author', generateValidationMiddleware(BookSchemas.GetByAuthor), BookController.getByAuthor)

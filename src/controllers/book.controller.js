@@ -17,9 +17,10 @@ const saveBooks = async (req, res, next) => {
 		const books = await BookHelper.combineBookInfo()
 		// BookService.insertEach(books)
 		const existedIds = await BookService.getIds()
-		const res = await BookService.insertMany(BookHelper.getNewBooks(books, existedIds))
-		res.send(res)
+		const result = await BookService.insertMany(BookHelper.getNewBooks(books, existedIds))
+		res.send(result)
 	} catch (err) {
+		console.log(err)
 		next(err)
 	}
 }
@@ -45,6 +46,14 @@ const getById = async (req, res, next) => {
 	}
 }
 
+const getAll = async (req, res, next) => {
+	try {
+		const books = await BookService.getAll()
+		res.json(books)
+	} catch (err) {
+		next(err)
+	}
+}
 const getByAuthor = async (req, res, next) => {
 	try {
 		const { authorName } = req.query
@@ -62,5 +71,6 @@ module.exports = {
 		vote,
 		getById,
 		getByAuthor,
+		getAll
 	},
 }

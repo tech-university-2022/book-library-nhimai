@@ -63,6 +63,12 @@ const getByAuthor = async (authorName) => {
 	return books
 }
 
+const getAll = async () => {
+	const books = await prisma.book.findMany({})
+	console.log(books)
+	return books
+}
+
 module.exports = {
 	BookService: {
 		insertEach,
@@ -71,5 +77,6 @@ module.exports = {
 		getIds,
 		getDetail,
 		getByAuthor,
+		getAll
 	},
 }
