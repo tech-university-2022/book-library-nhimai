@@ -2,21 +2,30 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true
     },
-    "extends": "standard",
-    "overrides": [
-    ],
-    "parser": "babel-eslint",
+    "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-        "indent": [2, "tab"],
+        "indent": [
+            "error",
+            "tab"
+        ],
         "no-tabs": 0,
-        "linebreak-style": ["error", "unix"],
-        "quotes": ["error", "single"],
-        "semi": ["error", "never"],
-        "properties": "never" 
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ]
     }
 }

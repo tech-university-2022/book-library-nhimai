@@ -6,8 +6,6 @@ module.exports = {
 		if (res.headersSent) {
 			return next(err)
 		}
-
-		console.error(err)
 		switch (err.constructor) {
 		case joi.ValidationError: {
 			return res.status(400).json({ message: err.message })

@@ -1,19 +1,17 @@
 const prisma = require('../stores/db.store')
 
 const insertEach = (books) => {
-	const promises = books.map(async (book) => {
-		return prisma.book.create({
-			data: {
-				...book
-			}
-		}).catch(() => console.log(book.id))
-	})
+	const promises = books.map(async (book) => prisma.book.create({
+		data: {
+			...book,
+		},
+	}).catch(() => console.log(book.id)))
 	Promise.all(promises)
 }
 
 const insertMany = async (books) => {
 	const res = await prisma.book.createMany({
-		data: books
+		data: books,
 	})
 	return res
 }
@@ -21,20 +19,20 @@ const insertMany = async (books) => {
 const getIds = async () => {
 	const Ids = await prisma.book.findMany({
 		select: {
-			id: true
-		}
+			id: true,
+		},
 	})
-	return Ids.map(book => book.id)
+	return Ids.map((book) => book.id)
 }
 
 const vote = async (id, isLike) => {
 	await prisma.book.update({
 		where: {
-			id: id
+			id,
 		},
 		data: {
-			Is_like: isLike
-		}
+			Is_like: isLike,
+		},
 	})
 }
 
@@ -45,11 +43,11 @@ const getDetail = async (id) => {
 			Author: true,
 			Name: true,
 			Is_like: true,
-			Rating: false
+			Rating: false,
 		},
 		where: {
-			id
-		}
+			id,
+		},
 	})
 	return book
 }
@@ -58,9 +56,9 @@ const getByAuthor = async (authorName) => {
 	const books = await prisma.book.findMany({
 		where: {
 			Author: {
-				equals: authorName
-			}
-		}
+				equals: authorName,
+			},
+		},
 	})
 	return books
 }
@@ -72,6 +70,6 @@ module.exports = {
 		vote,
 		getIds,
 		getDetail,
-		getByAuthor
-	}
+		getByAuthor,
+	},
 }

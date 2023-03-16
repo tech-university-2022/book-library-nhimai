@@ -5,9 +5,7 @@ const getExternalAPI = async (req, res, next) => {
 	try {
 		const books = await BookHelper.combineBookInfo()
 		const result = BookHelper.groupByAuthor(books)
-		for (let key in result) {
-			result[key] = BookHelper.sortByRating(result[key])
-		}
+		Object.entries(result).map(([_, value]) => BookHelper.sortByRating(value))
 		res.json(result)
 	} catch (err) {
 		next(err)
@@ -63,6 +61,6 @@ module.exports = {
 		saveBooks,
 		vote,
 		getById,
-		getByAuthor
-	}
+		getByAuthor,
+	},
 }

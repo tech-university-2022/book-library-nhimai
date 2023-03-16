@@ -10,10 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Book {
-  id Int @id @default(autoincrement())
-  Name String
-  Author String
-  Rating Float? @default(0)
+model User {
+  id      Int      @id @default(autoincrement())
+  Name    String
+  Author  String
+  Rating  Float?   @default(0)
   Is_like Boolean?
 }
